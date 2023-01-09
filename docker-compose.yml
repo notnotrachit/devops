@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: rachit
+      POSTGRES_USER: rachit
+      POSTGRES_DB: flask_api
+  web:
+    build: ./web
+    command: python app.py run
+    volumes:
+      - ./web/:/usr/src/app/
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env
+    depends_on:
+      - database
