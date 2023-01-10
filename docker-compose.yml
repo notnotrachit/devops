@@ -10,14 +10,21 @@ services:
       POSTGRES_PASSWORD: rachit
       POSTGRES_USER: rachit
       POSTGRES_DB: flask_api
+
   web:
-    build: ./web
-    command: python app.py run
-    volumes:
-      - ./web/:/usr/src/app/
-    ports:
-      - 5000:5000
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    command: gunicorn --bind 0.0.0.0:5000 app:app
+    expose:
+      - 80
     env_file:
       - ./.env
     depends_on:
       - database
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - web
