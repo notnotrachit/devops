@@ -18,10 +18,11 @@ services:
     command: gunicorn --bind 0.0.0.0:5000 app:app
     expose:
       - 80
-    env_file:
-      - ./.env
+    restart: always
     depends_on:
       - database
+    links:
+      - "database"
   nginx:
     build: ./nginx
     ports:

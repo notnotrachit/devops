@@ -14,6 +14,8 @@ class task(db.Model):
     def __repr__(self):
         return '<Task %r>' % self.task
 
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def hello_world():
@@ -35,7 +37,7 @@ def add_task():
 def add_create_task():
     return render_template('add_task.html')
 
+print("testing")
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(host='0.0.0.0', port=80)
